@@ -12,7 +12,7 @@ def emotions_detector(img_array):
     im = np.float32(test_image)
     im = np.expand_dims(im, axis=0)  # Add the batch dimension
 
-    onnx_pred = s.m_q.run(['dense_2'], {"input": im})
+    onnx_pred = s.m_q.run(['dense_3'], {"input": im}) # Dense name is important, changes with the NN version
     time_elapsed = time.time() - time_init
     emotion = ""
     if np.argmax(onnx_pred, axis = -1)[0][0]==0:

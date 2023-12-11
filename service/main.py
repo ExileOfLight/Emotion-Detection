@@ -1,7 +1,9 @@
+import starlette
 from fastapi import FastAPI
 from service.api.api import main_router
 import onnxruntime as rt
 import uvicorn
+from starlette.responses import HTMLResponse
 
 app = FastAPI(project_name="Emotions Detection")
 app.include_router(main_router)
@@ -15,4 +17,20 @@ m_q = rt.InferenceSession(
 
 @app.get("/")
 async def root():
-    return {'hello': 'world'}
+    message = "Simple web app that runs a trained and quantized neural network (Transfer learning with Pretrained " \
+              "Efficient Net).<br/>Use /docs for documentation and testing.<br/>Full code for this neural network and "\
+              "additional studied materials:<br/>https://colab.research.google.com/drive" \
+              "/1_ro6_k7KzdhXtxciTuuwa9_pfn8dTg2o?usp=sharing<br/>"
+    html_content = html_content = f"""
+    <html>
+    <head>
+        <style>
+            body {{ background-color: #222222; color: white; }}
+        </style>
+    </head>
+    <body>
+        <p>{message}</p>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
